@@ -1,0 +1,23 @@
+# 0002. A real-time simulation driven by two background threads
+
+- Status: Accepted
+- Date: 2026-11-19
+
+The game runs in real time: one thread brings clients, another closes each month, while the main
+thread reads the player's commands.
+
+## Technical details
+- **State** (`Model`): budget 500,000, free and rented meters, staff, rent price 700.
+- **Clients thread** (`generateClient`): every `RENT_TICK = 20` s, a random number (0 to the
+  free meters) rents meters.
+- **Month thread** (`environment`): every `MONTH = 60` s, `calculateProfit()` adds income
+  (rented × price) minus expenses (0.5 per free meter, 0.8 per rented, `SALARY = 50` per
+  employee); the game ends once the budget is at or below `MAX_DEBT = -90000`.
+- **Commands**: `1` buy meters (`PARKOMAT_PRICE = 50000` each; needs one employee per 10
+  meters), `2` hire staff, `q` quit.
+- **Known limit**: `gameStatus` is assigned inside `environment()` without `global`, so the
+  debt limit doesn't actually stop the input loop; `q` does.
+
+## Technologies and alternatives
+- Involved: Python 3 standard library (`threading`, `random`, `time`).
+- Alternatives: turn-based steps (simpler and testable, but the lab asked for a live game).
