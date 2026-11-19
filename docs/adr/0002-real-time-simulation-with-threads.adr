@@ -15,8 +15,9 @@ thread reads the player's commands.
   employee); the game ends once the budget is at or below `MAX_DEBT = -90000`.
 - **Commands**: `1` buy meters (`PARKOMAT_PRICE = 50000` each; needs one employee per 10
   meters), `2` hire staff, `q` quit.
-- **Known limit**: `gameStatus` is assigned inside `environment()` without `global`, so the
-  debt limit doesn't actually stop the input loop; `q` does.
+- **Game over**: when the budget drops to `MAX_DEBT`, `environment()` sets the global
+  `gameStatus = False` and asks for Enter; the input loop then ends. (Until 2026-11-19 the
+  `global` was missing, so the debt limit never ended the game.)
 
 ## Technologies and alternatives
 - Involved: Python 3 standard library (`threading`, `random`, `time`).

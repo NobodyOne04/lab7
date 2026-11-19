@@ -77,11 +77,13 @@ def generateClient(model):
         time.sleep(RENT_TICK)
     
 def environment(model):
+    global gameStatus  # without it the assignment below made a local and the game never ended
     time.sleep(MONTH)
     while model.getBuget() > MAX_DEBT:
         model.calculateProfit()
         time.sleep(MONTH)
     gameStatus = False
+    print("\nБюджет ниже допустимого долга. Нажмите Enter.")
 
 if __name__ == '__main__':
     model = Model()
